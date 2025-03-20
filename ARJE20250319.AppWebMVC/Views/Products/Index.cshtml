@@ -96,9 +96,15 @@
                     @Html.DisplayFor(modelItem => item.Category.CategoryName)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td><a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.ProductId">Editar</a></td>
+                                <td><a asp-action="Details" class="btn btn-success" asp-route-id="@item.ProductId">Detalle</a></td>
+                                <td><a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.ProductId">Eliminar</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
             </td>
         </tr>
 }
