@@ -1,16 +1,16 @@
 ﻿@model ARJE20250319.AppWebMVC.Models.User
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Perfil";
 }
 
-<h1>Edit</h1>
+<h1>Perfil</h1>
 
-<h4>User</h4>
+<h4>Usuario</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Perfil">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="UserId" />
             <div class="form-group">
@@ -28,7 +28,7 @@
                 <select asp-for="Role" class="form-control">
                     <option value="">SELECCIONAR</option>
                     <option value="ADMINISTRADOR">ADMINISTRADOR</option>
-                    <option value="GERENTE">GERENTE</option>
+                    <option value="NORMAL">NORMAL</option>
                 </select>
                 <span asp-validation-for="Role" class="text-danger"></span>
             </div>
@@ -39,10 +39,8 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
