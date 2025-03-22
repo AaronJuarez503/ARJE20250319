@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using ARJE20250319.AppWebMVC.Models;
 
 namespace ARJE20250319.AppWebMVC.Controllers;
-
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc; 
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ARJE20250319.AppWebMVC.Models;
@@ -15,6 +15,7 @@ using System.Text;
 
 namespace ARJE20250319.AppWebMVC.Controllers
 {
+    [Authorize(Roles ="ADMINISTRADOR")]
     public class UsersController : Controller
     {
         private readonly Test20250319DbContext _context;
@@ -93,7 +94,7 @@ namespace ARJE20250319.AppWebMVC.Controllers
             {
                 var claims = new[] {
                     new Claim(ClaimTypes.Name, userAuth.Email),
-                    new Claim("Id", userAuth.UserId.ToString()),
+                    new Claim("UserId", userAuth.UserId.ToString()),
                     new Claim("Username", userAuth.Username),
                     new Claim(ClaimTypes.Role, userAuth.Role)
                     };
@@ -202,14 +203,14 @@ namespace ARJE20250319.AppWebMVC.Controllers
         public async Task<IActionResult> Perfil()
         {
 
-            var idStr = User.FindFirst("Id")?.Value;
+            var idStr = User.FindFirst("UserId")?.Value;
             int id = int.Parse(idStr);
             var usuario = await _context.Users.FindAsync(id);
             return View(usuario);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Perfil(int id, [Bind("Id,Username,Email,Role")] User user)
+        public async Task<IActionResult> Perfil(int id, [Bind("UserId,Username,Email,Role")] User user)
         {
             if (id != user.UserId)
             {

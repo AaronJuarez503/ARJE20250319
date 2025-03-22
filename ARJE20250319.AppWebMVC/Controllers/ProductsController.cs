@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ARJE20250319.AppWebMVC.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ARJE20250319.AppWebMVC.Controllers
 {
+    [Authorize]
     public class ProductsController : Controller
     {
         private readonly Test20250319DbContext _context;
@@ -28,20 +30,20 @@ namespace ARJE20250319.AppWebMVC.Controllers
                 query = query.Where(s => s.Description.Contains(products.Description));
             if (products.BrandId > 0)
                 query = query.Where(s => s.BrandId == products.BrandId);
-            if (products.CategoryId > 0)
-                query = query.Where(s => s.CategoryId == products.CategoryId);
+            if (products.WarehouseId > 0)
+                query = query.Where(s => s.WarehouseId == products.WarehouseId);
             if (topRegistro > 0)
                 query = query.Take(topRegistro);
             query = query
-                .Include(p => p.Category).Include(p => p.Brand);
+                .Include(p => p.Warehouse).Include(p => p.Brand);
 
             var marcas = _context.Brands.ToList();
             marcas.Add(new Brand { BrandName = "SELECCIONAR", BrandId = 0 });
 
-            var categorias = _context.Categories.ToList();
-            categorias.Add(new Category { CategoryName = "SELECCIONAR", CategoryId = 0 });
+            var categorias = _context.Warehouses.ToList();
+            categorias.Add(new Warehouse { WarehouseName = "SELECCIONAR", WarehouseId = 0 });
 
-            ViewData["CategoryId"] = new SelectList(categorias, "CategoryId", "CategoryName", 0);
+            ViewData["WarehouseId"] = new SelectList(categorias, "WarehouseId", "WarehouseName", 0);
             ViewData["BrandId"] = new SelectList(marcas, "BrandId", "BrandName", 0);
 
             return View(await query.ToListAsync());
@@ -57,7 +59,7 @@ namespace ARJE20250319.AppWebMVC.Controllers
 
             var product = await _context.Products
                 .Include(p => p.Brand)
-                .Include(p => p.Category)
+                .Include(p => p.Warehouse)
                 .FirstOrDefaultAsync(m => m.ProductId == id);
             if (product == null)
             {
@@ -71,7 +73,7 @@ namespace ARJE20250319.AppWebMVC.Controllers
         public IActionResult Create()
         {
             ViewData["BrandId"] = new SelectList(_context.Brands, "BrandId", "BrandName");
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
+            ViewData["WarehouseId"] = new SelectList(_context.Warehouses, "WarehouseId", "WarehouseName");
             return View();
         }
 
@@ -80,7 +82,7 @@ namespace ARJE20250319.AppWebMVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,ProductName,Description,Price,CategoryId,BrandId")] Product product)
+        public async Task<IActionResult> Create([Bind("ProductId,ProductName,Description,Price,WarehouseId,BrandId")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -89,7 +91,7 @@ namespace ARJE20250319.AppWebMVC.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["BrandId"] = new SelectList(_context.Brands, "BrandId", "BrandId", product.BrandId);
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", product.CategoryId);
+            ViewData["WarehouseId"] = new SelectList(_context.Warehouses, "WarehouseId", "WarehouseId", product.WarehouseId);
             return View(product);
         }
 
@@ -107,7 +109,7 @@ namespace ARJE20250319.AppWebMVC.Controllers
                 return NotFound();
             }
             ViewData["BrandId"] = new SelectList(_context.Brands, "BrandId", "BrandName", product.BrandId);
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", product.CategoryId);
+            ViewData["WarehouseId"] = new SelectList(_context.Warehouses, "WarehouseId", "WarehouseName", product.WarehouseId);
             return View(product);
         }
 
@@ -116,7 +118,7 @@ namespace ARJE20250319.AppWebMVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,Description,Price,CategoryId,BrandId")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,Description,Price,WarehouseId,BrandId")] Product product)
         {
             if (id != product.ProductId)
             {
@@ -144,7 +146,7 @@ namespace ARJE20250319.AppWebMVC.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["BrandId"] = new SelectList(_context.Brands, "BrandId", "BrandId", product.BrandId);
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", product.CategoryId);
+            ViewData["WarehouseId"] = new SelectList(_context.Warehouses, "WarehouseId", "WarehouseId", product.WarehouseId);
             return View(product);
         }
 
@@ -158,7 +160,7 @@ namespace ARJE20250319.AppWebMVC.Controllers
 
             var product = await _context.Products
                 .Include(p => p.Brand)
-                .Include(p => p.Category)
+                .Include(p => p.Warehouse)
                 .FirstOrDefaultAsync(m => m.ProductId == id);
             if (product == null)
             {

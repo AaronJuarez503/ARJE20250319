@@ -11,22 +11,22 @@ using Microsoft.AspNetCore.Authorization;
 namespace ARJE20250319.AppWebMVC.Controllers
 {
     [Authorize]
-    public class CategoriesController : Controller
+    public class WarehouseController : Controller
     {
         private readonly Test20250319DbContext _context;
 
-        public CategoriesController(Test20250319DbContext context)
+        public WarehouseController(Test20250319DbContext context)
         {
             _context = context;
         }
 
-        // GET: Categories
+        // GET: Warehouse
         public async Task<IActionResult> Index()
         {
             return View(await _context.Warehouses.ToListAsync());
         }
 
-        // GET: Categories/Details/5
+        // GET: Warehouse/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,39 +34,39 @@ namespace ARJE20250319.AppWebMVC.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Warehouses
+            var warehouse = await _context.Warehouses
                 .FirstOrDefaultAsync(m => m.WarehouseId == id);
-            if (category == null)
+            if (warehouse == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(warehouse);
         }
 
-        // GET: Categories/Create
+        // GET: Warehouse/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Categories/Create
+        // POST: Warehouse/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("WarehouseID,WarehouseName,Notes")] Warehouses warehose)
+        public async Task<IActionResult> Create([Bind("WarehouseId,WarehouseName,Notes")] Warehouse warehouse)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(warehose);
+                _context.Add(warehouse);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(warehose);
+            return View(warehouse);
         }
 
-        // GET: Categories/Edit/5
+        // GET: Warehouse/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -74,22 +74,22 @@ namespace ARJE20250319.AppWebMVC.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Warehouses.FindAsync(id);
-            if (category == null)
+            var warehouse = await _context.Warehouses.FindAsync(id);
+            if (warehouse == null)
             {
                 return NotFound();
             }
-            return View(category);
+            return View(warehouse);
         }
 
-        // POST: Categories/Edit/5
+        // POST: Warehouse/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("WarehouseID,WarehouseName,Notes")] Warehouses category)
+        public async Task<IActionResult> Edit(int id, [Bind("WarehouseId,WarehouseName,Notes")] Warehouse warehouse)
         {
-            if (id != category.WarehouseID)
+            if (id != warehouse.WarehouseId)
             {
                 return NotFound();
             }
@@ -98,12 +98,12 @@ namespace ARJE20250319.AppWebMVC.Controllers
             {
                 try
                 {
-                    _context.Update(category);
+                    _context.Update(warehouse);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategoryExists(category.WarehouseID))
+                    if (!WarehouseExists(warehouse.WarehouseId))
                     {
                         return NotFound();
                     }
@@ -114,10 +114,10 @@ namespace ARJE20250319.AppWebMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            return View(warehouse);
         }
 
-        // GET: Categories/Delete/5
+        // GET: Warehouse/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,32 +125,32 @@ namespace ARJE20250319.AppWebMVC.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Warehouses
+            var warehouse = await _context.Warehouses
                 .FirstOrDefaultAsync(m => m.WarehouseId == id);
-            if (category == null)
+            if (warehouse == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(warehouse);
         }
 
-        // POST: Categories/Delete/5
+        // POST: Warehouse/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var category = await _context.Warehouses.FindAsync(id);
-            if (category != null)
+            var warehouse = await _context.Warehouses.FindAsync(id);
+            if (warehouse != null)
             {
-                _context.Warehouses.Remove(category);
+                _context.Warehouses.Remove(warehouse);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CategoryExists(int id)
+        private bool WarehouseExists(int id)
         {
             return _context.Warehouses.Any(e => e.WarehouseId == id);
         }

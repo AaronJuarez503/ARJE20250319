@@ -12,13 +12,12 @@ builder.Services.AddDbContext<Test20250319DbContext>(options =>
 });
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie((o) =>
 {
-    o.LoginPath = new PathString("/Usuarios/login");
-    o.AccessDeniedPath = new PathString("/Usuarios/login");
+    o.LoginPath = new PathString("/Users/login");
+    o.AccessDeniedPath = new PathString("/Users/login");
     o.ExpireTimeSpan = TimeSpan.FromHours(8);
     o.SlidingExpiration = true;
     o.Cookie.HttpOnly = true;
 });
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -28,12 +27,13 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+    
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

@@ -30,8 +30,8 @@
         </div>
         <div class="col-4">
             <div class="form-group">
-                <label class="control-label">Categorias</label>
-                <select name="categoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+                <label class="control-label">Bodegas</label>
+                <select name="warehouseId" class="form-control" asp-items="ViewBag.WarehouseId"></select>
             </div>
         </div>
         <div class="col-4">
@@ -72,7 +72,7 @@
                 @Html.DisplayNameFor(model => model.Brand)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Category)
+                @Html.DisplayNameFor(model => model.Warehouse)
             </th>
             <th></th>
         </tr>
@@ -93,7 +93,7 @@
                     @Html.DisplayFor(modelItem => item.Brand.BrandName)
             </td>
             <td>
-                    @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                    @Html.DisplayFor(modelItem => item.Warehouse.WarehouseName)
             </td>
             <td>
                     <table>

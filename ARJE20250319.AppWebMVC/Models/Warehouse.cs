@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace ARJE20250319.AppWebMVC.Models;
 
-public partial class Warehouses
+public partial class Warehouse
 {
-    public int WarehouseID { get; set; }
+    public int WarehouseId { get; set; }
 
     public string WarehouseName { get; set; } = null!;
 
