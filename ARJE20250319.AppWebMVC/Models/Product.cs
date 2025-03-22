@@ -14,7 +14,8 @@ public partial class Product
     public string? Description { get; set; }
 
     [Required(ErrorMessage = "El Precio es obligatorio.")]
-    [RegularExpression(@"^\d+$", ErrorMessage = "Solo se permiten números.")]
+    [RegularExpression(@"^\d+(\.\d+)?$", ErrorMessage = "Solo se permiten números y puntos.")]
+
     public decimal Price { get; set; }
 
     public int? BrandId { get; set; }
